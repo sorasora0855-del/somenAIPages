@@ -5,58 +5,50 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#ffffff">
   <title>somenAI</title>
-  <link rel="stylesheet" href="style.css?v=clean1">
+  <link rel="stylesheet" href="style.css?v=reset2">
 </head>
 <body>
-  <div id="app" class="app">
-    <aside id="sidebar" class="sidebar">
-      <div class="sidebar-top">
-        <div class="brand">somenAI</div>
-        <button id="newChat" class="btn btn-primary full" type="button">＋ 新しいチャット</button>
+<div id="app">
+  <aside id="sidebar">
+    <div class="brand">somenAI</div>
+    <button id="newChat" class="new-chat">＋ 新しいチャット</button>
+    <div id="chatList" class="chat-list"></div>
+    <div class="sidebar-footer">
+      <button id="settingsButton" class="footer-button">⚙ 設定</button>
+      <button id="logout" class="footer-button">ログアウト</button>
+    </div>
+  </aside>
+  <div id="mobileBackdrop"></div>
+  <main>
+    <header><button id="menuButton" class="menu-button" aria-label="メニュー">☰</button><b>somenAI</b><span id="status"></span></header>
+
+    <section id="auth" class="auth">
+      <div class="auth-box">
+        <h1>somenAI</h1><p>AIと話そう。</p>
+        <form id="authForm">
+          <input id="username" placeholder="ユーザー名" autocomplete="username" required>
+          <input id="password" type="password" placeholder="パスワード" autocomplete="current-password" required>
+          <button id="authSubmit" class="primary" type="submit">ログイン</button>
+          <button id="authToggle" class="link-button" type="button">新規登録はこちら</button>
+          <div id="authError" class="error"></div>
+        </form>
       </div>
-      <div id="chatList" class="chat-list"></div>
-      <div class="sidebar-bottom">
-        <div class="setting-row"><label for="provider">AI</label><select id="provider"><option value="auto">自動</option><option value="gemini">Gemini</option><option value="groq">Groq / Qwen</option></select></div>
-        <label class="check"><input id="webSearch" type="checkbox"><span>Web検索</span></label>
-        <label class="check"><input id="useReferences" type="checkbox"><span>参考資料RAG</span></label>
-        <button id="addReference" class="btn btn-secondary full" type="button">＋ 参考資料を追加</button>
-        <button id="logout" class="btn btn-secondary full" type="button">ログアウト</button>
-      </div>
-    </aside>
+    </section>
 
-    <div id="backdrop" class="backdrop"></div>
-    <main class="main">
-      <header class="header">
-        <button id="menuButton" class="icon-btn mobile-only" type="button" aria-label="メニュー">☰</button>
-        <strong>somenAI</strong>
-        <span id="status" class="status"></span>
-      </header>
+    <section id="chat" class="chat hidden"></section>
 
-      <section id="auth" class="auth">
-        <div class="auth-card">
-          <h1>somenAI</h1><p>AIと話そう。</p>
-          <form id="authForm">
-            <input id="username" autocomplete="username" placeholder="ユーザー名" required>
-            <input id="password" type="password" autocomplete="current-password" placeholder="パスワード" required>
-            <button id="authSubmit" class="btn btn-primary" type="submit">ログイン</button>
-            <button id="authToggle" class="text-btn" type="button">新規登録はこちら</button>
-            <p id="authError" class="error"></p>
-          </form>
-        </div>
-      </section>
+    <div id="attachmentPreview" class="attachment-preview hidden"></div>
 
-      <section id="chat" class="chat hidden"></section>
-      <div id="attachmentPreview" class="attachment hidden"></div>
-      <form id="composer" class="composer hidden">
-        <textarea id="input" rows="1" placeholder="メッセージを入力…" autocomplete="off"></textarea>
-        <button id="modeButton" class="icon-btn" type="button" aria-label="画像生成モード" title="画像生成モード">🎨</button>
-        <button id="attach" class="icon-btn" type="button" aria-label="画像を添付" title="画像を添付">＋</button>
-        <button id="send" class="send-btn" type="submit">送信</button>
-        <input id="imageInput" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif,image/avif" multiple hidden>
-        <input id="cameraInput" type="file" accept="image/*" capture="environment" hidden>
-      </form>
-    </main>
-  </div>
-  <script src="app.js?v=clean1" defer></script>
+    <form id="composer" class="composer hidden">
+      <button id="attachButton" class="round-button" type="button" aria-label="画像を添付">＋</button>
+      <textarea id="input" rows="1" placeholder="メッセージを入力…" autocomplete="off"></textarea>
+      <button id="imageModeButton" class="round-button" type="button" aria-label="画像生成モード">🎨</button>
+      <button id="send" class="send-button" type="submit" aria-label="送信">↑</button>
+      <input id="imageInput" type="file" accept="image/*" multiple hidden>
+      <input id="cameraInput" type="file" accept="image/*" capture="environment" hidden>
+    </form>
+  </main>
+</div>
+<script src="app.js?v=reset2" defer></script>
 </body>
 </html>
