@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#ffffff">
   <title>somenAI</title>
-  <link rel="stylesheet" href="style.css?v=reset2">
+  <link rel="stylesheet" href="style.css?v=reset3">
 </head>
 <body>
 <div id="app">
@@ -14,14 +14,13 @@
     <button id="newChat" class="new-chat">＋ 新しいチャット</button>
     <div id="chatList" class="chat-list"></div>
     <div class="sidebar-footer">
-      <button id="settingsButton" class="footer-button">⚙ 設定</button>
+      <button id="settingsButton" class="footer-button">⚙️ 設定</button>
       <button id="logout" class="footer-button">ログアウト</button>
     </div>
   </aside>
   <div id="mobileBackdrop"></div>
   <main>
-    <header><button id="menuButton" class="menu-button" aria-label="メニュー">☰</button><b>somenAI</b><span id="status"></span></header>
-
+    <header><button id="menuButton" class="menu-button" aria-label="メニュー">☰</button><b>somenAI</b><button id="mobileSettings" class="mobile-settings" aria-label="設定">⚙️</button><span id="status"></span></header>
     <section id="auth" class="auth">
       <div class="auth-box">
         <h1>somenAI</h1><p>AIと話そう。</p>
@@ -34,11 +33,8 @@
         </form>
       </div>
     </section>
-
     <section id="chat" class="chat hidden"></section>
-
     <div id="attachmentPreview" class="attachment-preview hidden"></div>
-
     <form id="composer" class="composer hidden">
       <button id="attachButton" class="round-button" type="button" aria-label="画像を添付">＋</button>
       <textarea id="input" rows="1" placeholder="メッセージを入力…" autocomplete="off"></textarea>
@@ -49,6 +45,7 @@
     </form>
   </main>
 </div>
-<script src="app.js?v=reset2" defer></script>
+<script src="app.js?v=reset3" defer></script>
+<script>window.addEventListener('DOMContentLoaded',()=>{const b=document.getElementById('mobileSettings'),s=document.getElementById('settingsButton');if(b&&s)b.onclick=()=>s.click()})</script>
 </body>
 </html>
