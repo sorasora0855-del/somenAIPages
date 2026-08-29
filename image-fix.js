@@ -3,34 +3,27 @@
   const cameraInput = document.getElementById('cameraInput');
   if (!imageInput || !cameraInput) return;
 
-  const toDataURL = file => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result || ''));
-    reader.onerror = () => reject(reader.error || new Error('画像の読み込みに失敗しました'));
-    reader.readAsDataURL(file);
-  });
-
-  const prepare = async (event, original) => {
-    const files = [...(event.target.files || [])];
-    try {
-      await Promise.all(files.map(async file => {
-        file.base64 = await toDataURL(file);
-        file.mimeType = file.type || 'image/jpeg';
-      }));
-      // app.js の既存処理には、base64/mimeType を持った File オブジェクトを渡す。
-      original({ target: { files, value: '' } });
-    } catch (error) {
-      const status = document.getElementById('status');
-      if (status) status.textContent = '画像の読み込みに失敗しました';
-      console.error(error);
-    } finally {
-      event.target.value = '';
-    }
+  // app.js owns the input handlers. This file only normalizes image payloads
+  // right before they leave the browser so the API receives raw base64.
+  const originalFetch = window.fetch.bind(window);
+  const toRawBase64 = value => {
+    if (typeof value !== 'string') return value;
+    const comma = value.indexOf(',');
+    return value.startsWith('data:') && comma >= 0 ? value.slice(comma + 1) : value;
   };
 
-  const originalImageChange = imageInput.onchange;
-  const originalCameraChange = cameraInput.onchange;
-
-  imageInput.onchange = event => prepare(event, originalImageChange);
-  cameraInput.onchange = event => prepare(event, originalCameraChange);
+  window.fetch = async (input, init = {}) => {
+    const url = typeof input === 'string' ? input : input?.url || '';
+    if (url.includes('/api/chats/') && url.includes('/messages/stream') && typeof init.body === 'string') {
+      try {
+        const body = JSON.parse(init.body);
+        if (body.imageData) body.imageData = toRawBase64(body.imageData);
+        if (body.imageData2) body.imageData2 = toRawBase64(body.imageData2);
+        init = { ...init, body: JSON.stringify(body) };
+      } catch (_) {
+        // Leave non-JSON requests untouched.
+      }
+    }
+    return originalFetch(input, init);
+  };
 })();
